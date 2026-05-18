@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plateforme AI Recrutement</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">AI</span>
+          <div>
+            <strong>AI Recrutement</strong>
+            <small>Matching, entretien, recommandations</small>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <button class="nav-btn active" data-view="candidate">Candidat</button>
+          <button class="nav-btn" data-view="recruiter">Recruteur</button>
+          <button class="nav-btn" data-view="ai">Moteur IA</button>
+          <button class="nav-btn" data-view="admin">Admin</button>
+        </nav>
+
+        <section class="api-panel">
+          <label for="apiBase">Backend API</label>
+          <div class="api-row">
+            <input id="apiBase" type="url" value="http://localhost:8000" />
+            <button id="saveApi" title="Enregistrer l'URL">OK</button>
+          </div>
+          <p id="apiStatus" class="status muted">Verification en attente</p>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Plateforme AI Recruitment</p>
+            <h1 id="pageTitle">Espace candidat</h1>
+          </div>
+          <div class="top-actions">
+            <button id="seedDemo">Donnees demo</button>
+            <button id="refreshData">Synchroniser</button>
+          </div>
+        </header>
+
+        <section id="candidateView" class="view active">
+          <div class="band two-col">
+            <section class="panel">
+              <div class="panel-head">
+                <h2>Offres publiees</h2>
+                <span id="jobCount" class="pill">0 offres</span>
+              </div>
+              <div id="jobsList" class="list"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <h2>Postuler</h2>
+                <span class="pill">CV + matching</span>
+              </div>
+              <form id="applicationForm" class="stack">
+                <label>
+                  Offre
+                  <select id="applicationJob"></select>
+                </label>
+                <label>
+                  CV PDF ou DOCX
+                  <input id="cvFile" type="file" accept=".pdf,.docx" />
+                </label>
+                <label>
+                  Texte CV si pas de fichier
+                  <textarea id="cvText" rows="7" placeholder="Collez le contenu du CV ici"></textarea>
+                </label>
+                <label>
+                  Lettre de motivation
+                  <textarea id="coverLetter" rows="4" placeholder="Pourquoi ce poste vous interesse ?"></textarea>
+                </label>
+                <button type="submit">Postuler et analyser</button>
+              </form>
+              <div id="candidateResult" class="result-box"></div>
+            </section>
+          </div>
+
+          <div class="band two-col">
+            <section class="panel">
+              <div class="panel-head">
+                <h2>Mes candidatures</h2>
+                <span id="applicationCount" class="pill">0</span>
+              </div>
+              <div id="applicationsList" class="list compact"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <h2>Entretien AI</h2>
+                <span class="pill">Simulation</span>
+              </div>
+              <div class="interview-layout">
+                <button id="generateQuestions">Generer questions</button>
+                <div id="questionsList" class="list compact"></div>
+                <label>
+                  Reponse candidat
+                  <textarea id="answerText" rows="4" placeholder="Ecrivez une reponse a la question selectionnee"></textarea>
+                </label>
+                <button id="analyzeAnswer">Analyser reponse</button>
+                <div id="answerAnalysis" class="result-box"></div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section id="recruiterView" class="view">
+          <div class="band two-col">
+            <section class="panel">
+              <div class="panel-head">
+                <h2>Creer une offre</h2>
+                <span class="pill">Gestion des offres</span>
+              </div>
+              <form id="jobForm" class="grid-form">
+                <label>
+                  Titre
+                  <input id="jobTitle" required minlength="5" placeholder="Developpeur Full Stack" />
+                </label>
+                <label>
+                  Niveau
+                  <select id="experienceLevel">
+                    <option value="junior">Junior</option>
+                    <option value="mid_level">Mid-level</option>
+                    <option value="senior">Senior</option>
+                    <option value="lead">Lead</option>
+                  </select>
+                </label>
+                <label>
+                  Localisation
+                  <input id="jobLocation" placeholder="Casablanca, Rabat, Remote" />
+                </label>
+                <label>
+                  Salaire min
+                  <input id="salaryMin" type="number" min="0" placeholder="8000" />
+                </label>
+                <label class="wide">
+                  Competences
+                  <input id="jobSkills" required placeholder="React, Python, FastAPI, MongoDB" />
+                </label>
+                <label class="wide">
+                  Description
+                  <textarea id="jobDescription" required rows="5" placeholder="Mission, contexte, responsabilites"></textarea>
+                </label>
+                <label class="wide">
+                  Exigences
+                  <textarea id="jobRequirements" required rows="4" placeholder="Experience, outils, niveau attendu"></textarea>
+                </label>
+                <button type="submit" class="wide">Publier offre</button>
+              </form>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <h2>Talents recommandes</h2>
+                <span class="pill">Score matching</span>
+              </div>
+              <label>
+                Offre a analyser
+                <select id="recommendationJob"></select>
+              </label>
+              <button id="recommendTalents">Recommander talents</button>
+              <div id="talentRecommendations" class="list"></div>
+            </section>
+          </div>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Candidatures recues</h2>
+              <span id="recruiterApplicationCount" class="pill">0</span>
+            </div>
+            <div id="recruiterApplications" class="table-wrap"></div>
+          </section>
+        </section>
+
+        <section id="aiView" class="view">
+          <div class="band three-col">
+            <section class="metric">
+              <strong id="aiCvCount">0</strong>
+              <span>CV analyses</span>
+            </section>
+            <section class="metric">
+              <strong id="aiMatchAvg">0%</strong>
+              <span>Score moyen</span>
+            </section>
+            <section class="metric">
+              <strong id="aiQuestionCount">0</strong>
+              <span>Questions generees</span>
+            </section>
+          </div>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Pipeline IA</h2>
+              <span class="pill">CV -> Matching -> Entretien -> Feedback</span>
+            </div>
+            <div class="pipeline">
+              <div class="step done">Uploader CV</div>
+              <div class="connector"></div>
+              <div class="step done">Analyser CV</div>
+              <div class="connector"></div>
+              <div class="step">Calculer matching</div>
+              <div class="connector"></div>
+              <div class="step">Generer questions</div>
+              <div class="connector"></div>
+              <div class="step">Feedback final</div>
+            </div>
+            <div id="aiLog" class="log"></div>
+          </section>
+        </section>
+
+        <section id="adminView" class="view">
+          <div class="band three-col">
+            <section class="metric">
+              <strong id="adminJobs">0</strong>
+              <span>Offres</span>
+            </section>
+            <section class="metric">
+              <strong id="adminApplications">0</strong>
+              <span>Candidatures</span>
+            </section>
+            <section class="metric">
+              <strong id="adminBackend">OFF</strong>
+              <span>Backend</span>
+            </section>
+          </div>
+
+          <div class="band two-col">
+            <section class="panel">
+              <div class="panel-head">
+                <h2>Gerer recruteurs</h2>
+                <span class="pill">Administration</span>
+              </div>
+              <form id="recruiterForm" class="stack">
+                <label>
+                  Nom recruteur
+                  <input id="recruiterName" placeholder="Nom complet" />
+                </label>
+                <label>
+                  Email
+                  <input id="recruiterEmail" type="email" placeholder="recruteur@email.com" />
+                </label>
+                <button type="submit">Ajouter recruteur</button>
+              </form>
+              <div id="recruitersList" class="list compact"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <h2>Superviser systeme</h2>
+                <span class="pill">Health</span>
+              </div>
+              <div id="systemMonitor" class="result-box"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <template id="emptyTemplate">
+      <div class="empty">Aucune donnee pour le moment.</div>
+    </template>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
