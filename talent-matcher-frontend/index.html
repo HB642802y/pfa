@@ -3,24 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Plateforme AI Recrutement</title>
+    <title>Talent Matcher AI</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <div class="app-shell">
       <aside class="sidebar">
         <div class="brand">
-          <span class="brand-mark">AI</span>
+          <span class="brand-mark">TM</span>
           <div>
-            <strong>AI Recrutement</strong>
-            <small>Matching, entretien, recommandations</small>
+            <strong>Talent Matcher AI</strong>
+            <small>ATS intelligent pour recruter plus vite</small>
           </div>
         </div>
 
         <nav class="nav">
-          <button class="nav-btn active" data-view="candidate">Candidat</button>
+          <button class="nav-btn active" data-view="landing">Accueil</button>
+          <button class="nav-btn" data-view="candidate">Candidat</button>
+          <button class="nav-btn hidden" data-view="interview">Entretien AI</button>
           <button class="nav-btn" data-view="recruiter">Recruteur</button>
-          <button class="nav-btn" data-view="ai">Moteur IA</button>
           <button class="nav-btn" data-view="admin">Admin</button>
         </nav>
 
@@ -34,32 +35,190 @@
         </section>
       </aside>
 
-      <main class="workspace">
+      <main class="workspace main-content">
         <header class="topbar">
           <div>
-            <p class="eyebrow">Plateforme AI Recruitment</p>
-            <h1 id="pageTitle">Espace candidat</h1>
+            <p class="eyebrow">Talent Matcher AI</p>
+            <h1 id="pageTitle">Dashboard recrutement</h1>
           </div>
           <div class="top-actions">
-            <button id="seedDemo">Donnees demo</button>
-            <button id="refreshData">Synchroniser</button>
+            <span id="authStatus" class="session-pill">Invite</span>
+            <button id="logoutBtn" class="secondary hidden" type="button">Deconnexion</button>
+            <button id="seedDemo" class="btn btn-secondary">Donnees demo</button>
+            <button id="refreshData" class="btn btn-primary">Synchroniser</button>
           </div>
         </header>
 
-        <section id="candidateView" class="view active">
+        <section id="landingView" class="view active">
+          <section class="landing-hero card hero-card">
+            <div class="landing-copy">
+              <p class="eyebrow">SaaS recrutement augmente par IA</p>
+              <h2>Talent Matcher AI qualifie les candidatures avant le premier appel.</h2>
+              <p>
+                Centralisez les offres, les candidatures, le score CV, l'entretien IA et les recommandations recruteur dans un espace SaaS clair, rapide et credible.
+              </p>
+              <div class="landing-actions">
+                <button type="button" class="btn btn-primary" data-go-to="candidate">Commencer candidat</button>
+                <button type="button" class="btn btn-secondary" data-go-to="recruiter">Espace recruteur</button>
+              </div>
+              <div class="landing-metrics dashboard-grid stats-grid">
+                <div class="stat-card"><span>Offres actives</span><strong id="landingJobs">0</strong><small>Postes ouverts</small></div>
+                <div class="stat-card"><span>Candidatures</span><strong id="landingApplications">0</strong><small>Profils analyses</small></div>
+                <div class="stat-card"><span>Backend</span><strong id="landingBackend">OFF</strong><small>FastAPI / demo</small></div>
+                <div class="stat-card"><span>Score moyen</span><strong id="landingScore">0%</strong><small>Matching CV</small></div>
+              </div>
+            </div>
+
+            <div class="product-preview" aria-label="Apercu dashboard SaaS">
+              <div class="preview-top">
+                <span></span><span></span><span></span>
+                <strong>Talent Matcher AI</strong>
+              </div>
+              <div class="preview-grid">
+                <div class="preview-panel wide">
+                  <div class="preview-line strong"></div>
+                  <div class="preview-line"></div>
+                  <div class="preview-tags"><span></span><span></span><span></span></div>
+                </div>
+                <div class="preview-score">
+                  <strong>86%</strong>
+                  <span>matching</span>
+                </div>
+                <div class="preview-panel">
+                  <div class="preview-line strong"></div>
+                  <div class="preview-line short"></div>
+                </div>
+                <div class="preview-panel">
+                  <div class="preview-line strong"></div>
+                  <div class="preview-line"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Workflow</p>
+              <h2>Comment Talent Matcher AI structure le recrutement</h2>
+            </div>
+            <span class="badge badge-info">CV -> Matching -> Entretien -> Decision</span>
+          </div>
+
+          <section class="landing-band dashboard-grid">
+            <article class="card feature-card">
+              <span class="feature-icon">01</span>
+              <h3>Matching CV</h3>
+              <p>Analyse les competences, calcule un score et bloque l'entretien si le seuil n'est pas atteint.</p>
+            </article>
+            <article class="card feature-card">
+              <span class="feature-icon">02</span>
+              <h3>Entretien AI</h3>
+              <p>Genere des questions, evalue les reponses et envoie le detail au recruteur.</p>
+            </article>
+            <article class="card feature-card">
+              <span class="feature-icon">03</span>
+              <h3>Recommandation talents</h3>
+              <p>Classe les profils par pertinence pour aider le recruteur a decider plus vite.</p>
+            </article>
+            <article class="card feature-card">
+              <span class="feature-icon">04</span>
+              <h3>Mode demo resilient</h3>
+              <p>Continue en localStorage si FastAPI est indisponible, ideal pour une soutenance fluide.</p>
+            </article>
+          </section>
+
+          <section class="value-grid dashboard-grid">
+            <article class="card value-card">
+              <span class="badge badge-info">Candidat</span>
+              <h3>Un parcours clair</h3>
+              <p>Consulter les offres, postuler, comprendre son score et passer l'entretien IA sans friction.</p>
+            </article>
+            <article class="card value-card">
+              <span class="badge badge-success">Recruteur</span>
+              <h3>Une decision plus rapide</h3>
+              <p>Voir les meilleurs profils, les competences detectees et les details d'entretien dans un tableau lisible.</p>
+            </article>
+            <article class="card value-card">
+              <span class="badge badge-warning">Admin</span>
+              <h3>Une supervision simple</h3>
+              <p>Gerer les recruteurs, suivre les volumes et verifier l'etat du backend en quelques secondes.</p>
+            </article>
+          </section>
+        </section>
+
+        <section id="candidateView" class="view">
+          <section id="candidateGate" class="auth-gate">
+            <div class="auth-card">
+              <form id="candidateLoginForm" class="auth-mode active">
+                <div>
+                  <p class="eyebrow">Compte candidat</p>
+                  <h2>Connexion candidat</h2>
+                </div>
+                <label>
+                  Email
+                  <input id="candidateLoginEmail" type="email" required placeholder="candidat@email.com" />
+                </label>
+                <label>
+                  Mot de passe
+                  <input id="candidateLoginPassword" type="password" required placeholder="Votre mot de passe" />
+                </label>
+                <button type="submit">Login</button>
+                <div id="candidateLoginResult" class="result-box"></div>
+              </form>
+
+              <form id="candidateRegisterForm" class="auth-mode">
+                <div>
+                  <p class="eyebrow">Nouveau candidat</p>
+                  <h2>Inscription candidat</h2>
+                </div>
+                <label>
+                  Nom complet
+                  <input id="candidateRegisterName" required minlength="3" placeholder="Sara El Mansouri" />
+                </label>
+                <label>
+                  Email
+                  <input id="candidateRegisterEmail" type="email" required placeholder="candidat@email.com" />
+                </label>
+                <label>
+                  Mot de passe
+                  <input id="candidateRegisterPassword" type="password" required minlength="6" placeholder="Minimum 6 caracteres" />
+                </label>
+                <button type="submit">Inscrire</button>
+                <div id="candidateRegisterResult" class="result-box"></div>
+              </form>
+
+              <div class="auth-switch">
+                <button id="showCandidateLogin" type="button" class="secondary active">Login</button>
+                <button id="showCandidateRegister" type="button" class="secondary">Inscrire</button>
+              </div>
+            </div>
+          </section>
+
+          <div id="candidateContent" class="locked-content">
+            <div class="session-row">
+              <span id="candidateSessionLabel" class="session-pill"></span>
+            </div>
+
+          <div class="dashboard-grid stats-grid">
+            <section class="stat-card"><span>Mes candidatures</span><strong id="candidateTotalApps">0</strong><small>Envoyees</small></section>
+            <section class="stat-card"><span>Meilleur score CV</span><strong id="candidateBestScore">0%</strong><small>Matching obtenu</small></section>
+            <section class="stat-card"><span>Entretien IA</span><strong id="candidateInterviewMetric">0</strong><small>Debloques</small></section>
+          </div>
+
           <div class="band two-col">
-            <section class="panel">
+            <section class="panel card">
               <div class="panel-head">
                 <h2>Offres publiees</h2>
                 <span id="jobCount" class="pill">0 offres</span>
               </div>
               <div id="jobsList" class="list"></div>
+              <div id="candidateJobDetails" class="job-details hidden"></div>
             </section>
 
-            <section class="panel">
+            <section class="panel card">
               <div class="panel-head">
                 <h2>Postuler</h2>
-                <span class="pill">CV + matching</span>
+                <span class="pill">CV + matching RAG</span>
               </div>
               <form id="applicationForm" class="stack">
                 <label>
@@ -84,39 +243,93 @@
             </section>
           </div>
 
-          <div class="band two-col">
-            <section class="panel">
-              <div class="panel-head">
-                <h2>Mes candidatures</h2>
-                <span id="applicationCount" class="pill">0</span>
-              </div>
-              <div id="applicationsList" class="list compact"></div>
-            </section>
-
-            <section class="panel">
-              <div class="panel-head">
-                <h2>Entretien AI</h2>
-                <span class="pill">Simulation</span>
-              </div>
-              <div class="interview-layout">
-                <button id="generateQuestions">Generer questions</button>
-                <div id="questionsList" class="list compact"></div>
-                <label>
-                  Reponse candidat
-                  <textarea id="answerText" rows="4" placeholder="Ecrivez une reponse a la question selectionnee"></textarea>
-                </label>
-                <button id="analyzeAnswer">Analyser reponse</button>
-                <div id="answerAnalysis" class="result-box"></div>
-              </div>
-            </section>
+          <section class="panel card">
+            <div class="panel-head">
+              <h2>Mes candidatures</h2>
+              <span id="applicationCount" class="pill">0</span>
+            </div>
+            <div id="applicationsList" class="list compact"></div>
+          </section>
           </div>
         </section>
 
+        <section id="interviewView" class="view">
+          <section class="panel card interview-page">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Simulation entretien AI</p>
+                <h2 id="interviewJobTitle">Entretien candidat</h2>
+              </div>
+              <span id="interviewStatusPill" class="pill">Pret</span>
+            </div>
+
+            <div class="interview-summary">
+              <div>
+                <span>Candidat</span>
+                <strong id="interviewCandidateName">-</strong>
+              </div>
+              <div>
+                <span>Score CV</span>
+                <strong id="interviewCvScore">-</strong>
+              </div>
+              <div>
+                <span>Progression</span>
+                <strong id="interviewProgress">0/0</strong>
+              </div>
+            </div>
+
+            <div id="interviewGateMessage" class="result-box"></div>
+
+            <div class="interview-actions">
+              <button id="generateQuestions" type="button">Generer questions AI</button>
+              <button id="interviewBack" type="button" class="secondary">Retour candidat</button>
+            </div>
+
+            <div id="questionsList" class="list compact"></div>
+
+            <div class="interview-actions">
+              <button id="analyzeAnswer" type="button">Terminer et envoyer le score</button>
+            </div>
+            <div id="answerAnalysis" class="result-box"></div>
+          </section>
+        </section>
+
         <section id="recruiterView" class="view">
+          <section id="recruiterGate" class="auth-gate">
+            <form id="recruiterLoginForm" class="auth-card">
+              <div>
+                <p class="eyebrow">Acces recruteur</p>
+                <h2>Connexion recruteur</h2>
+              </div>
+              <label>
+                Email
+                <input id="recruiterLoginEmail" type="email" required placeholder="recruteur@email.com" />
+              </label>
+              <label>
+                Mot de passe
+                <input id="recruiterLoginPassword" type="password" required placeholder="Mot de passe donne par l'admin" />
+              </label>
+              <button type="submit">Entrer</button>
+              <div id="recruiterLoginResult" class="result-box"></div>
+            </form>
+          </section>
+
+          <div id="recruiterContent" class="locked-content">
+            <div class="session-row">
+              <span id="recruiterSessionLabel" class="session-pill"></span>
+              <button id="recruiterLogout" class="secondary" type="button">Quitter recruteur</button>
+            </div>
+
+          <div class="dashboard-grid stats-grid">
+            <section class="stat-card"><span>Offres publiees</span><strong id="recruiterJobMetric">0</strong><small>Actives</small></section>
+            <section class="stat-card"><span>Candidatures recues</span><strong id="recruiterAppMetric">0</strong><small>A traiter</small></section>
+            <section class="stat-card"><span>Meilleur score</span><strong id="recruiterBestScore">0%</strong><small>Top candidat</small></section>
+          </div>
+
           <div class="band two-col">
-            <section class="panel">
+            <section class="panel card">
               <div class="panel-head">
-                <h2>Creer une offre</h2>
+                <h2 id="jobFormTitle">Creer une offre</h2>
                 <span class="pill">Gestion des offres</span>
               </div>
               <form id="jobForm" class="grid-form">
@@ -153,14 +366,17 @@
                   Exigences
                   <textarea id="jobRequirements" required rows="4" placeholder="Experience, outils, niveau attendu"></textarea>
                 </label>
-                <button type="submit" class="wide">Publier offre</button>
+                <div class="wide form-actions">
+                  <button id="jobSubmit" type="submit">Publier offre</button>
+                  <button id="cancelJobEdit" type="button" class="secondary hidden">Annuler modification</button>
+                </div>
               </form>
             </section>
 
-            <section class="panel">
+            <section class="panel card">
               <div class="panel-head">
                 <h2>Talents recommandes</h2>
-                <span class="pill">Score matching</span>
+                <span class="pill">Score matching RAG</span>
               </div>
               <label>
                 Offre a analyser
@@ -171,69 +387,62 @@
             </section>
           </div>
 
-          <section class="panel">
+          <section class="panel card">
+            <div class="panel-head">
+              <h2>Offres publiees</h2>
+              <span class="pill">Modifier / supprimer</span>
+            </div>
+            <div id="recruiterJobsList" class="list"></div>
+          </section>
+
+          <section class="panel card">
             <div class="panel-head">
               <h2>Candidatures recues</h2>
               <span id="recruiterApplicationCount" class="pill">0</span>
             </div>
             <div id="recruiterApplications" class="table-wrap"></div>
           </section>
-        </section>
-
-        <section id="aiView" class="view">
-          <div class="band three-col">
-            <section class="metric">
-              <strong id="aiCvCount">0</strong>
-              <span>CV analyses</span>
-            </section>
-            <section class="metric">
-              <strong id="aiMatchAvg">0%</strong>
-              <span>Score moyen</span>
-            </section>
-            <section class="metric">
-              <strong id="aiQuestionCount">0</strong>
-              <span>Questions generees</span>
-            </section>
           </div>
-
-          <section class="panel">
-            <div class="panel-head">
-              <h2>Pipeline IA</h2>
-              <span class="pill">CV -> Matching -> Entretien -> Feedback</span>
-            </div>
-            <div class="pipeline">
-              <div class="step done">Uploader CV</div>
-              <div class="connector"></div>
-              <div class="step done">Analyser CV</div>
-              <div class="connector"></div>
-              <div class="step">Calculer matching</div>
-              <div class="connector"></div>
-              <div class="step">Generer questions</div>
-              <div class="connector"></div>
-              <div class="step">Feedback final</div>
-            </div>
-            <div id="aiLog" class="log"></div>
-          </section>
         </section>
 
         <section id="adminView" class="view">
+          <section id="adminGate" class="auth-gate">
+            <form id="adminLoginForm" class="auth-card">
+              <div>
+                <p class="eyebrow">Acces admin</p>
+                <h2>Connexion administrateur</h2>
+              </div>
+              <label>
+                Email
+                <input id="adminLoginEmail" type="email" required placeholder="admin@pfam.local" />
+              </label>
+              <label>
+                Mot de passe
+                <input id="adminLoginPassword" type="password" required placeholder="Mot de passe admin" />
+              </label>
+              <button type="submit">Entrer admin</button>
+              <div id="adminLoginResult" class="result-box"></div>
+            </form>
+          </section>
+
+          <div id="adminContent" class="locked-content">
           <div class="band three-col">
-            <section class="metric">
+            <section class="metric stat-card">
               <strong id="adminJobs">0</strong>
               <span>Offres</span>
             </section>
-            <section class="metric">
+            <section class="metric stat-card">
               <strong id="adminApplications">0</strong>
               <span>Candidatures</span>
             </section>
-            <section class="metric">
+            <section class="metric stat-card">
               <strong id="adminBackend">OFF</strong>
               <span>Backend</span>
             </section>
           </div>
 
           <div class="band two-col">
-            <section class="panel">
+            <section class="panel card">
               <div class="panel-head">
                 <h2>Gerer recruteurs</h2>
                 <span class="pill">Administration</span>
@@ -247,18 +456,23 @@
                   Email
                   <input id="recruiterEmail" type="email" placeholder="recruteur@email.com" />
                 </label>
+                <label>
+                  Mot de passe
+                  <input id="recruiterPassword" type="password" minlength="6" placeholder="Minimum 6 caracteres" />
+                </label>
                 <button type="submit">Ajouter recruteur</button>
               </form>
               <div id="recruitersList" class="list compact"></div>
             </section>
 
-            <section class="panel">
+            <section class="panel card">
               <div class="panel-head">
                 <h2>Superviser systeme</h2>
                 <span class="pill">Health</span>
               </div>
               <div id="systemMonitor" class="result-box"></div>
             </section>
+          </div>
           </div>
         </section>
       </main>
@@ -268,6 +482,23 @@
       <div class="empty">Aucune donnee pour le moment.</div>
     </template>
 
-    <script src="./app.js"></script>
+    <script src="./js/state.js?v=20260521-2"></script>
+    <script src="./js/utils.js?v=20260521-2"></script>
+    <script src="./js/components.js?v=20260521-2"></script>
+    <script src="./js/domain.js?v=20260521-2"></script>
+    <script src="./js/api.js?v=20260521-2"></script>
+    <script src="./js/auth.js?v=20260521-2"></script>
+    <script src="./js/sync.js?v=20260521-2"></script>
+    <script src="./js/jobs.js?v=20260521-2"></script>
+    <script src="./js/applications.js?v=20260521-2"></script>
+    <script src="./js/interview.js?v=20260521-2"></script>
+    <script src="./js/admin.js?v=20260521-2"></script>
+    <script src="./js/page-shared.js?v=20260521-2"></script>
+    <script src="./js/page-candidate.js?v=20260521-2"></script>
+    <script src="./js/page-interview.js?v=20260521-2"></script>
+    <script src="./js/page-recruiter.js?v=20260521-2"></script>
+    <script src="./js/page-admin.js?v=20260521-2"></script>
+    <script src="./js/pages.js?v=20260521-2"></script>
+    <script src="./app.js?v=20260521-2"></script>
   </body>
 </html>
