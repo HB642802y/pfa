@@ -19,9 +19,9 @@
 
         <nav class="nav">
           <button class="nav-btn active" data-view="landing">Accueil</button>
-          <button class="nav-btn" data-view="candidate">Candidat</button>
+          <button class="nav-btn" data-view="recruiter">Pricing</button>
+          <button class="nav-btn" data-view="candidate">Login</button>
           <button class="nav-btn hidden" data-view="interview">Entretien AI</button>
-          <button class="nav-btn" data-view="recruiter">Recruteur</button>
           <button class="nav-btn" data-view="admin">Admin</button>
         </nav>
 
@@ -50,99 +50,74 @@
         </header>
 
         <section id="landingView" class="view active">
-          <section class="landing-hero card hero-card">
+          <section class="landing-hero">
             <div class="landing-copy">
-              <p class="eyebrow">SaaS recrutement augmente par IA</p>
-              <h2>Talent Matcher AI qualifie les candidatures avant le premier appel.</h2>
+              <p class="eyebrow">Talent Matcher AI</p>
+              <h2>Discover real-world design inspiration.</h2>
               <p>
-                Centralisez les offres, les candidatures, le score CV, l'entretien IA et les recommandations recruteur dans un espace SaaS clair, rapide et credible.
+                Explore modern interfaces, components and flows to build better products faster.
               </p>
               <div class="landing-actions">
-                <button type="button" class="btn btn-primary" data-go-to="candidate">Commencer candidat</button>
-                <button type="button" class="btn btn-secondary" data-go-to="recruiter">Espace recruteur</button>
-              </div>
-              <div class="landing-metrics dashboard-grid stats-grid">
-                <div class="stat-card"><span>Offres actives</span><strong id="landingJobs">0</strong><small>Postes ouverts</small></div>
-                <div class="stat-card"><span>Candidatures</span><strong id="landingApplications">0</strong><small>Profils analyses</small></div>
-                <div class="stat-card"><span>Backend</span><strong id="landingBackend">OFF</strong><small>FastAPI / demo</small></div>
-                <div class="stat-card"><span>Score moyen</span><strong id="landingScore">0%</strong><small>Matching CV</small></div>
-              </div>
-            </div>
-
-            <div class="product-preview" aria-label="Apercu dashboard SaaS">
-              <div class="preview-top">
-                <span></span><span></span><span></span>
-                <strong>Talent Matcher AI</strong>
-              </div>
-              <div class="preview-grid">
-                <div class="preview-panel wide">
-                  <div class="preview-line strong"></div>
-                  <div class="preview-line"></div>
-                  <div class="preview-tags"><span></span><span></span><span></span></div>
-                </div>
-                <div class="preview-score">
-                  <strong>86%</strong>
-                  <span>matching</span>
-                </div>
-                <div class="preview-panel">
-                  <div class="preview-line strong"></div>
-                  <div class="preview-line short"></div>
-                </div>
-                <div class="preview-panel">
-                  <div class="preview-line strong"></div>
-                  <div class="preview-line"></div>
-                </div>
+                <button type="button" class="btn btn-primary" data-go-to="candidate">Join for free</button>
+                <button type="button" class="btn btn-secondary" data-go-to="recruiter">See our plans -></button>
               </div>
             </div>
           </section>
 
-          <div class="section-header">
-            <div>
-              <p class="eyebrow">Workflow</p>
-              <h2>Comment Talent Matcher AI structure le recrutement</h2>
+          <section class="trust-section" aria-label="Trusted by modern teams">
+            <p>Trusted by modern teams</p>
+            <div class="trust-logos">
+              <span>Northstar</span>
+              <span>Linear Studio</span>
+              <span>Arcwise</span>
+              <span>Nova Labs</span>
+              <span>Plainly</span>
             </div>
-            <span class="badge badge-info">CV -> Matching -> Entretien -> Decision</span>
-          </div>
-
-          <section class="landing-band dashboard-grid">
-            <article class="card feature-card">
-              <span class="feature-icon">01</span>
-              <h3>Matching CV</h3>
-              <p>Analyse les competences, calcule un score et bloque l'entretien si le seuil n'est pas atteint.</p>
-            </article>
-            <article class="card feature-card">
-              <span class="feature-icon">02</span>
-              <h3>Entretien AI</h3>
-              <p>Genere des questions, evalue les reponses et envoie le detail au recruteur.</p>
-            </article>
-            <article class="card feature-card">
-              <span class="feature-icon">03</span>
-              <h3>Recommandation talents</h3>
-              <p>Classe les profils par pertinence pour aider le recruteur a decider plus vite.</p>
-            </article>
-            <article class="card feature-card">
-              <span class="feature-icon">04</span>
-              <h3>Mode demo resilient</h3>
-              <p>Continue en localStorage si FastAPI est indisponible, ideal pour une soutenance fluide.</p>
-            </article>
           </section>
 
-          <section class="value-grid dashboard-grid">
-            <article class="card value-card">
-              <span class="badge badge-info">Candidat</span>
-              <h3>Un parcours clair</h3>
-              <p>Consulter les offres, postuler, comprendre son score et passer l'entretien IA sans friction.</p>
-            </article>
-            <article class="card value-card">
-              <span class="badge badge-success">Recruteur</span>
-              <h3>Une decision plus rapide</h3>
-              <p>Voir les meilleurs profils, les competences detectees et les details d'entretien dans un tableau lisible.</p>
-            </article>
-            <article class="card value-card">
-              <span class="badge badge-warning">Admin</span>
-              <h3>Une supervision simple</h3>
-              <p>Gerer les recruteurs, suivre les volumes et verifier l'etat du backend en quelques secondes.</p>
-            </article>
+          <section class="library-showcase" aria-label="Interface bibliotheque">
+            <div class="library-shell">
+              <div class="library-search">
+                <span>Search screens, components, flows...</span>
+                <kbd>Ctrl K</kbd>
+              </div>
+              <div class="library-tabs">
+                <button type="button" class="active">All</button>
+                <button type="button">Web apps</button>
+                <button type="button">Mobile</button>
+                <button type="button">SaaS</button>
+                <button type="button">AI tools</button>
+              </div>
+              <div class="library-columns">
+                <article>
+                  <span>Categories</span>
+                  <strong>Recruiting</strong>
+                  <p>Hiring, matching, screening, interviews</p>
+                </article>
+                <article>
+                  <span>Screens</span>
+                  <strong id="landingJobs">0</strong>
+                  <p>Active roles published in your workspace</p>
+                </article>
+                <article>
+                  <span>UI Elements</span>
+                  <strong id="landingApplications">0</strong>
+                  <p>Applications, score cards and tables</p>
+                </article>
+                <article>
+                  <span>Flows</span>
+                  <strong id="landingScore">0%</strong>
+                  <p>Average CV matching quality</p>
+                </article>
+              </div>
+              <div class="library-footer">
+                <div>
+                  <span>Backend</span>
+                  <strong id="landingBackend">OFF</strong>
+                </div>
+                <button type="button" data-go-to="candidate">Open candidate flow</button>
+              </div>
+            </div>
           </section>
         </section>
 

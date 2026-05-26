@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", initApp);
 function initApp() {
   bindElements();
   bindEvents();
+  document.body.dataset.view = "landing";
   els.apiBase.value = state.apiBase;
   try {
     renderAll();
@@ -120,6 +121,7 @@ function handleCandidateAuthClick(event) {
 }
 
 function switchView(view) {
+  document.body.dataset.view = view;
   document.querySelectorAll(".nav-btn").forEach((button) => {
     button.classList.toggle("active", button.dataset.view === view);
   });
