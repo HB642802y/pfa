@@ -63,6 +63,9 @@ async function submitApplication(event) {
   event.target.reset();
   renderAll();
   showResult(els.candidateResult, renderAiValidation(application));
+
+  // Notify recruiter about new application
+  notifyRecruiterAboutApplication(application, job);
 }
 
 async function calculateMatch(cvText, job, parsedCv) {
@@ -93,6 +96,36 @@ async function calculateMatch(cvText, job, parsedCv) {
   }
 
   return localMatch(cvText, job);
+}
+
+async function notifyRecruiterAboutApplication(application, job) {
+  try {
+    const response = await fetch(`${state.apiBase}/notifications/application`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${state.authToken}`
+      },
+      body: JSON.stringify({
+        application_id: application.id,
+        candidate_name: application.candidateName,
+        candidate_email: application.candidateEmail,
+        job_id: job.id,
+        job_title: job.title,
+        match_score: application.match.overall_score,
+        status: application.status
+      })
+    });
+
+    if (response.ok) {
+      addLog(`Notification envoyée au recruteur pour ${job.title}`);
+    } else {
+      addLog(`Échec de la notification au recruteur`);
+    }
+  } catch (error) {
+    console.error("Error notifying recruiter:", error);
+    addLog(`Notification locale: Nouvelle candidature pour ${job.title}`);
+  }
 }
 
 // ============================================================

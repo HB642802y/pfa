@@ -20,6 +20,8 @@ const state = {
   candidates: readStoredJson("candidates", []),
   recruiters: readStoredJson("recruiters", []),
   session: readStoredJson("session", null),
+  authToken: localStorage.getItem("authToken") || null,
+  currentUser: readStoredJson("currentUser", null),
   editingJobId: null,
   selectedCandidateJobId: localStorage.getItem("selectedCandidateJobId") || null,
   currentInterviewApplicationId: localStorage.getItem("currentInterviewApplicationId") || null,

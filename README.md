@@ -43,13 +43,14 @@ Le backend principal se trouve dans `ai-backend/`.
 
 Fichiers principaux:
 
-- `main_simple.py`: point d'entree FastAPI conseille pour la demo locale.
+- `main.py`: backend FastAPI avec persistance MongoDB.
+- `main_simple.py`: backend FastAPI simplifié en mémoire pour tests locaux.
 - `matcher.py`: scoring et matching entre CV et offres.
 - `cv_parser.py`: extraction de contenu CV.
 - `interview_ai.py`: generation et analyse des entretiens.
 - `recommendation_system.py`: recommandations de talents.
 - `auth.py`: logique d'authentification.
-- `database.py`: connexion et acces base de donnees.
+- `database.py`: connexion et accès base de données MongoDB.
 
 Installation:
 
@@ -60,11 +61,33 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Lancement:
+Configuration MongoDB:
+
+1. Installez MongoDB localement ou utilisez Docker :
 
 ```bash
-uvicorn main_simple:app --host 127.0.0.1 --port 8000
+docker run -d --name mongodb -p 27017:27017 mongo:latest
 ```
+
+2. Créez un fichier `ai-backend/.env` avec :
+
+```ini
+MONGODB_URL=mongodb://localhost:27017
+DATABASE_NAME=ai_matching_db
+```
+
+Lancement MongoDB + backend :
+
+```bash
+cd ai-backend
+.venv\Scripts\activate
+uvicorn main:app --host 127.0.0.1 --port 8000 --reload
+```
+
+Le backend crée automatiquement un compte admin par défaut si aucun admin n'existe :
+
+- Email : `admin@pfam.local`
+- Mot de passe : `admin123`
 
 ## Flux applicatif
 

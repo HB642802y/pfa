@@ -42,17 +42,17 @@ class InterviewStatus(str, Enum):
 # --- User Models ---
 class UserCreate(BaseModel):
     """Modèle pour la création d'utilisateur"""
-    email: EmailStr
-    password: str = Field(..., min_length=8, description="Mot de passe (min 8 caractères)")
-    first_name: str = Field(..., min_length=2, description="Prénom")
-    last_name: str = Field(..., min_length=2, description="Nom de famille")
+    email: str
+    password: str = Field(..., min_length=6, description="Mot de passe (min 6 caractères)")
+    first_name: str = Field(..., min_length=1, description="Prénom")
+    last_name: Optional[str] = Field(None, description="Nom de famille")
     role: UserRole = Field(..., description="Rôle de l'utilisateur")
     phone: Optional[str] = Field(None, description="Numéro de téléphone")
     location: Optional[str] = Field(None, description="Localisation")
 
 class UserLogin(BaseModel):
     """Modèle pour la connexion utilisateur"""
-    email: EmailStr
+    email: str
     password: str
 
 class UserResponse(BaseModel):

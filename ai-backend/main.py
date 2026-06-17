@@ -2,7 +2,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
-from datetime import datetime
+from datetime import datetime, timedelta
 import uvicorn
 import os
 from dotenv import load_dotenv
@@ -46,12 +46,36 @@ app.add_middleware(
 )
 
 # --- Événements de démarrage et arrêt ---
+async def ensure_default_admin():
+    """Créer un compte admin par défaut si aucun admin n'existe."""
+    try:
+        existing_admin = await db_manager.get_user_by_email("admin@pfam.local")
+        if existing_admin:
+            return
+
+        admin_password = auth_service.get_password_hash("admin123")
+        admin_data = {
+            "first_name": "Admin",
+            "last_name": "PFA",
+            "email": "admin@pfam.local",
+            "password": admin_password,
+            "role": UserRole.ADMIN.value,
+            "is_active": True,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        }
+        await db_manager.create_user(admin_data)
+        print("✅ Compte admin par défaut créé: admin@pfam.local / admin123")
+    except Exception as e:
+        print(f"⚠️ Impossible de créer l'admin par défaut: {e}")
+
 @app.on_event("startup")
 async def startup_event():
     """Initialiser la connexion à MongoDB au démarrage du serveur"""
     print("🚀 Démarrage du serveur...")
     try:
         await db_manager.connect()
+        await ensure_default_admin()
         print("✅ MongoDB initialisé avec succès")
     except Exception as e:
         print(f"⚠️ Attention: MongoDB non accessible: {e}")
@@ -2298,9 +2322,11 @@ async def create_recruiter(
             raise HTTPException(status_code=400, detail="Email déjà utilisé")
         
         hashed_password = auth_service.get_password_hash(user.password)
-        user_data = user.dict()
+        user_data = user.dict(exclude_none=True)
         user_data["password"] = hashed_password
         user_data["role"] = UserRole.RECRUITER.value
+        if not user_data.get("last_name"):
+            user_data["last_name"] = user_data.get("first_name", "")
         
         user_id = await db_manager.create_user(user_data)
         

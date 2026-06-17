@@ -19,7 +19,7 @@ async function createJob(event) {
     salary_min: numberOrNull(els.salaryMin.value),
     salary_max: null,
     location: els.jobLocation.value.trim() || "Non precise",
-    status: "active"
+    status: "pending"
   };
 
   if (editingJob) {
@@ -40,9 +40,24 @@ async function createJob(event) {
   let savedJob = job;
   if (state.backendOnline) {
     try {
-      const payload = await apiFetch("/jobs", { method: "POST", body: JSON.stringify(job) });
-      savedJob = normalizeObject(payload) || job;
-      addLog(`Offre creee cote backend: ${savedJob.title}`);
+      const headers = {
+        "Content-Type": "application/json"
+      };
+      if (state.authToken) {
+        headers["Authorization"] = `Bearer ${state.authToken}`;
+      }
+      const response = await fetch(`${state.apiBase}/recruiter/job/create`, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(job)
+      });
+      const payload = await response.json();
+      if (response.ok) {
+        savedJob = normalizeObject(payload) || job;
+        addLog(`Offre creee cote backend: ${savedJob.title}`);
+      } else {
+        addLog(`Creation backend echouee: ${payload.detail || 'Erreur'}`);
+      }
     } catch (error) {
       addLog(`Creation backend echouee, sauvegarde locale: ${cleanError(error)}`);
     }

@@ -607,8 +607,12 @@ label {
 }
 
 .locked-content {
-  display: grid;
+  display: none;
   gap: 22px;
+}
+
+.locked-content.unlocked {
+  display: grid;
 }
 
 .session-row {

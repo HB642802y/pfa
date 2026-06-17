@@ -27,7 +27,19 @@ app.add_middleware(
 
 # Stockage en mémoire (pour développement)
 memory_storage = {
-    "users": [],
+    "users": [
+        {
+            "id": "user_admin",
+            "firstName": "Admin",
+            "lastName": "PFA",
+            "email": "admin@pfam.local",
+            "password": "admin123",
+            "role": "admin",
+            "isActive": True,
+            "lastLogin": None,
+            "createdAt": datetime.now().isoformat()
+        }
+    ],
     "cvs": [],
     "jobs": [],
     "matches": [],
@@ -88,6 +100,7 @@ async def register(user_data: UserCreate):
             "firstName": user_data.firstName,
             "lastName": user_data.lastName,
             "email": user_data.email,
+            "password": user_data.password,
             "role": user_data.role,
             "isActive": True,
             "lastLogin": None,
@@ -118,6 +131,10 @@ async def login(credentials: UserLogin):
                 break
         
         if not user:
+            raise HTTPException(status_code=401, detail="Email ou mot de passe incorrect")
+        
+        # Vérifier le mot de passe
+        if user.get("password") != credentials.password:
             raise HTTPException(status_code=401, detail="Email ou mot de passe incorrect")
         
         # Mettre à jour lastLogin

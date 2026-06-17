@@ -9,6 +9,9 @@ function renderAll() {
   renderInterviewPage();
   renderRecruiter();
   renderAdmin();
+  renderCandidates();
+  renderJobsToValidate();
+  renderAdminStatistics();
 }
 
 function renderLanding() {

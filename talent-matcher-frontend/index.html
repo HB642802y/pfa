@@ -19,20 +19,20 @@
 
         <nav class="nav">
           <button class="nav-btn active" data-view="landing">Accueil</button>
-          <button class="nav-btn" data-view="recruiter">Pricing</button>
-          <button class="nav-btn" data-view="candidate">Login</button>
+          <button class="nav-btn" data-view="recruiter">Espace Recruteur</button>
+          <button class="nav-btn" data-view="candidate">Espace Candidat</button>
           <button class="nav-btn hidden" data-view="interview">Entretien AI</button>
-          <button class="nav-btn" data-view="admin">Admin</button>
+          <button class="nav-btn" data-view="admin">Administration</button>
         </nav>
 
-        <section class="api-panel">
-          <label for="apiBase">Backend API</label>
+        <div class="api-panel">
           <div class="api-row">
-            <input id="apiBase" type="url" value="http://localhost:8000" />
-            <button id="saveApi" title="Enregistrer l'URL">OK</button>
+            <input id="apiBase" class="form-control" type="text" value="http://localhost:8000" />
+            <button id="saveApi" type="button">OK</button>
           </div>
-          <p id="apiStatus" class="status muted">Verification en attente</p>
-        </section>
+          <p id="apiStatus" class="status muted">Vérification...</p>
+        </div>
+
       </aside>
 
       <main class="workspace main-content">
@@ -44,8 +44,6 @@
           <div class="top-actions">
             <span id="authStatus" class="session-pill">Invite</span>
             <button id="logoutBtn" class="secondary hidden" type="button">Deconnexion</button>
-            <button id="seedDemo" class="btn btn-secondary">Donnees demo</button>
-            <button id="refreshData" class="btn btn-primary">Synchroniser</button>
           </div>
         </header>
 
@@ -141,7 +139,7 @@
                 <div id="candidateLoginResult" class="result-box"></div>
               </form>
 
-              <form id="candidateRegisterForm" class="auth-mode">
+              <form id="candidateRegisterForm" class="auth-mode" onsubmit="return false;">
                 <div>
                   <p class="eyebrow">Nouveau candidat</p>
                   <h2>Inscription candidat</h2>
@@ -195,7 +193,7 @@
                 <h2>Postuler</h2>
                 <span class="pill">CV + matching RAG</span>
               </div>
-              <form id="applicationForm" class="stack">
+              <form id="applicationForm" class="stack" onsubmit="return false;">
                 <label>
                   Offre
                   <select id="applicationJob"></select>
@@ -307,7 +305,7 @@
                 <h2 id="jobFormTitle">Creer une offre</h2>
                 <span class="pill">Gestion des offres</span>
               </div>
-              <form id="jobForm" class="grid-form">
+              <form id="jobForm" class="grid-form" onsubmit="return false;">
                 <label>
                   Titre
                   <input id="jobTitle" required minlength="5" placeholder="Developpeur Full Stack" />
@@ -419,8 +417,8 @@
           <div class="band two-col">
             <section class="panel card">
               <div class="panel-head">
-                <h2>Gerer recruteurs</h2>
-                <span class="pill">Administration</span>
+                <h2>Liste des recruteurs</h2>
+                <span class="pill">Gestion</span>
               </div>
               <form id="recruiterForm" class="stack">
                 <label>
@@ -435,19 +433,131 @@
                   Mot de passe
                   <input id="recruiterPassword" type="password" minlength="6" placeholder="Minimum 6 caracteres" />
                 </label>
-                <button type="submit">Ajouter recruteur</button>
+                <button type="submit" class="btn btn-primary">Ajouter recruteur</button>
               </form>
               <div id="recruitersList" class="list compact"></div>
             </section>
 
             <section class="panel card">
               <div class="panel-head">
-                <h2>Superviser systeme</h2>
-                <span class="pill">Health</span>
+                <h2>Liste des candidats</h2>
+                <span class="pill">Gestion</span>
               </div>
-              <div id="systemMonitor" class="result-box"></div>
+              <form id="candidateForm" class="stack">
+                <label>
+                  Nom candidat
+                  <input id="candidateName" placeholder="Nom complet" />
+                </label>
+                <label>
+                  Email
+                  <input id="candidateEmail" type="email" placeholder="candidat@email.com" />
+                </label>
+                <label>
+                  Mot de passe
+                  <input id="candidatePassword" type="password" minlength="6" placeholder="Minimum 6 caracteres" />
+                </label>
+                <button type="submit" class="btn btn-primary">Ajouter candidat</button>
+              </form>
+              <div id="candidatesList" class="list compact"></div>
             </section>
           </div>
+
+          <div class="band two-col">
+            <section class="panel card">
+              <div class="panel-head">
+                <h2>Modifier recruteur</h2>
+                <span class="pill">Edition</span>
+              </div>
+              <form id="editRecruiterForm" class="stack" style="display: none;">
+                <input type="hidden" id="editRecruiterId" />
+                <label>
+                  Nom recruteur
+                  <input id="editRecruiterName" placeholder="Nom complet" />
+                </label>
+                <label>
+                  Email
+                  <input id="editRecruiterEmail" type="email" placeholder="recruteur@email.com" />
+                </label>
+                <label>
+                  Téléphone
+                  <input id="editRecruiterPhone" placeholder="Numéro de téléphone" />
+                </label>
+                <label>
+                  Localisation
+                  <input id="editRecruiterLocation" placeholder="Ville, Pays" />
+                </label>
+                <div class="item-actions">
+                  <button type="submit">Enregistrer modifications</button>
+                  <button type="button" id="cancelEditRecruiter" class="secondary">Annuler</button>
+                </div>
+              </form>
+              <div id="editRecruiterPlaceholder" class="empty">Sélectionnez un recruteur pour le modifier</div>
+            </section>
+
+            <section class="panel card">
+              <div class="panel-head">
+                <h2>Modifier candidat</h2>
+                <span class="pill">Edition</span>
+              </div>
+              <form id="editCandidateForm" class="stack" style="display: none;">
+                <input type="hidden" id="editCandidateId" />
+                <label>
+                  Nom candidat
+                  <input id="editCandidateName" placeholder="Nom complet" />
+                </label>
+                <label>
+                  Email
+                  <input id="editCandidateEmail" type="email" placeholder="candidat@email.com" />
+                </label>
+                <label>
+                  Téléphone
+                  <input id="editCandidatePhone" placeholder="Numéro de téléphone" />
+                </label>
+                <label>
+                  Localisation
+                  <input id="editCandidateLocation" placeholder="Ville, Pays" />
+                </label>
+                <div class="item-actions">
+                  <button type="submit">Enregistrer modifications</button>
+                  <button type="button" id="cancelEditCandidate" class="secondary">Annuler</button>
+                </div>
+              </form>
+              <div id="editCandidatePlaceholder" class="empty">Sélectionnez un candidat pour le modifier</div>
+            </section>
+          </div>
+
+          <section class="panel card">
+            <div class="panel-head">
+              <h2>Valider les offres</h2>
+              <span class="pill">Validation</span>
+            </div>
+            <div id="jobsToValidate" class="list compact"></div>
+          </section>
+
+          <section class="panel card">
+            <div class="panel-head">
+              <h2>Statistiques</h2>
+              <span class="pill">Overview</span>
+            </div>
+            <div class="dashboard-grid stats-grid">
+              <section class="stat-card"><span>Total Offres</span><strong id="adminTotalJobs">0</strong><small>Créées</small></section>
+              <section class="stat-card"><span>Offres Actives</span><strong id="adminActiveJobs">0</strong><small>Validées</small></section>
+              <section class="stat-card"><span>En Attente</span><strong id="adminPendingJobs">0</strong><small>Validation</small></section>
+              <section class="stat-card"><span>Total Candidats</span><strong id="adminTotalCandidates">0</strong><small>Inscrits</small></section>
+              <section class="stat-card"><span>Total Recruteurs</span><strong id="adminTotalRecruiters">0</strong><small>Actifs</small></section>
+              <section class="stat-card"><span>Candidatures</span><strong id="adminTotalApplications">0</strong><small>Reçues</small></section>
+              <section class="stat-card"><span>Score Moyen</span><strong id="adminAvgScore">0%</strong><small>Matching</small></section>
+              <section class="stat-card"><span>Entretiens</span><strong id="adminTotalInterviews">0</strong><small>Complétés</small></section>
+            </div>
+          </section>
+
+          <section class="panel card">
+            <div class="panel-head">
+              <h2>Superviser systeme</h2>
+              <span class="pill">Health</span>
+            </div>
+            <div id="systemMonitor" class="result-box"></div>
+          </section>
           </div>
         </section>
       </main>
@@ -457,23 +567,23 @@
       <div class="empty">Aucune donnee pour le moment.</div>
     </template>
 
-    <script src="./js/state.js?v=20260521-2"></script>
-    <script src="./js/utils.js?v=20260521-2"></script>
-    <script src="./js/components.js?v=20260521-2"></script>
-    <script src="./js/domain.js?v=20260521-2"></script>
-    <script src="./js/api.js?v=20260521-2"></script>
-    <script src="./js/auth.js?v=20260521-2"></script>
-    <script src="./js/sync.js?v=20260521-2"></script>
-    <script src="./js/jobs.js?v=20260521-2"></script>
-    <script src="./js/applications.js?v=20260521-2"></script>
-    <script src="./js/interview.js?v=20260521-2"></script>
-    <script src="./js/admin.js?v=20260521-2"></script>
-    <script src="./js/page-shared.js?v=20260521-2"></script>
-    <script src="./js/page-candidate.js?v=20260521-2"></script>
-    <script src="./js/page-interview.js?v=20260521-2"></script>
-    <script src="./js/page-recruiter.js?v=20260521-2"></script>
-    <script src="./js/page-admin.js?v=20260521-2"></script>
-    <script src="./js/pages.js?v=20260521-2"></script>
-    <script src="./app.js?v=20260521-2"></script>
+    <script src="./js/state.js?v=20260617-1"></script>
+    <script src="./js/utils.js?v=20260617-1"></script>
+    <script src="./js/components.js?v=20260617-1"></script>
+    <script src="./js/domain.js?v=20260617-1"></script>
+    <script src="./js/api.js?v=20260617-1"></script>
+    <script src="./js/auth.js?v=20260617-1"></script>
+    <script src="./js/sync.js?v=20260617-1"></script>
+    <script src="./js/jobs.js?v=20260617-1"></script>
+    <script src="./js/applications.js?v=20260617-1"></script>
+    <script src="./js/interview.js?v=20260617-1"></script>
+    <script src="./js/admin.js?v=20260617-1"></script>
+    <script src="./js/page-shared.js?v=20260617-1"></script>
+    <script src="./js/page-candidate.js?v=20260617-1"></script>
+    <script src="./js/page-interview.js?v=20260617-1"></script>
+    <script src="./js/page-recruiter.js?v=20260617-1"></script>
+    <script src="./js/page-admin.js?v=20260617-1"></script>
+    <script src="./js/pages.js?v=20260617-1"></script>
+    <script src="./app.js?v=20260617-1"></script>
   </body>
 </html>

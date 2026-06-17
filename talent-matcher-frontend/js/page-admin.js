@@ -23,7 +23,10 @@ function renderAdmin() {
           <h3>${escapeHtml(recruiter.name)}</h3>
           <p>${escapeHtml(recruiter.email)}</p>
         </div>
-        <span class="badge badge-success">${escapeHtml(recruiter.status)}</span>
+      </div>
+      <div class="item-actions">
+        <button data-edit-recruiter="${recruiter.id}" class="secondary">Modifier</button>
+        <button data-delete-recruiter="${recruiter.id}" class="danger">Supprimer</button>
       </div>
     </article>
   `).join("");
